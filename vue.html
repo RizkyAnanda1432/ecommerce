@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>MyShop</title>
+
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/heroic-features.css" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="vue.js"></script>
+  <style>
+  #bayar{
+    background-color: rgb(20, 80, 209);
+    cursor: pointer;
+  }
+  .button{
+    background-color: rgb(20, 80, 209);
+    border: none;
+    cursor: pointer;
+    border-radius: 100pt;
+  }
+
+  .table{
+    background-color: rgb(42, 231, 216);
+  }
+
+  #gambar{
+    background-color: aquamarine;
+  }
+  </style>
+</head>
+<body>
+    
+  <div id="app">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+          <div class="container">
+            <a class="navbar-brand text-white">MyShop</a>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link">Cart
+                    <span class="sr-only">(current)</span>{{cart.length}}
+                  </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link">Total Price
+                      <span class="sr-only">(current)</span>{{total}}
+                    </a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link text-white" href="#">Sign In</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+    <div>
+      <table class="table" align="center" border="1">
+        <tr>
+          <td v-for="(product,id) in products"  align="center">
+            <p>{{product.name}}<br /></p><hr />
+            <p id="gambar"><img :src="product.img" width="200" height="200"/><br /></p><hr>                            
+            <p>Price : {{product.price}}<br /></p>
+            <p>Stock : {{product.stock}}<br /></p>
+            <p><button class="button" type="submit" @click="addToCart(id)">Buy</button></p>
+          </td>
+        </tr>
+      </table>
+      <p align="center"><button id="bayar" type="submit" @click="bayar(id)">Bayar</button></p>
+      
+    </div>  
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        products: [
+          {id:1,
+          name:"Books",
+          price:2500,
+          stock:200,
+          img:"assets/book.png"
+        },
+        {id:2,
+          name:"Pens",
+          price:3500,
+          stock:100,
+          img:"assets/pen.png"
+        },
+        {id:3,
+          name:"Mouses",
+          price:50000,
+          stock:10,
+          img:"assets/mouse.png"
+        },
+        {id:4,
+          name:"Keyboards",
+          price:100000,
+          stock:5,
+          img:"assets/keyboard.png"
+        },
+        {id:5,
+          name:"Laptop",
+          price:8000000,
+          stock:20,
+          img:"assets/laptop.png"
+        }
+        ], 
+        cart:[],
+        total:0
+      },
+      methods:{
+        addToCart(id){
+          if(this.products[id].stock>0){
+            this.products[id].stock = this.products[id].stock-1
+            this.cart = this.cart+1
+            this.total = this.total+this.products[id].price
+          }
+          else{
+            alert("Sorry boy stock habis!!!")
+          }
+        },
+        bayar(id) {
+          if (this.cart == 0){
+            alert("Belum ada barang yang dipilih, Silahkan pilih barang terlebih dahulu!!!")
+          }
+          else{
+            alert("Anda akan membeli "+(this.cart.length)+" barang, Seharga Rp."+(this.total)+"")
+          }
+        }
+      }
+    })
+  </script>
+</body>
+</html>
